@@ -1,3 +1,0 @@
-FROM pashandor789/postupashki:latest
-
-COPY . /postupashki

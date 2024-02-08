@@ -1,5 +1,0 @@
-test_solution:
-    image:
-        pashandor789/postupashki:latest
-    script:
-        - python3 /postupashki/check_solution.py
