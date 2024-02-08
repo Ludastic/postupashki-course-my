@@ -6,10 +6,10 @@
 #include <chrono>
 #include <unordered_set>
 
-bool allow_duplicates = false;
+bool allowDuplicates = false;
 
 std::vector<int> GenerateVector(size_t n, size_t restrict = 1'000'000) {
-    if (!allow_duplicates) {
+    if (!allowDuplicates) {
         std::unordered_set<int> s;
         while (s.size() != n) {
             s.insert(rand());
@@ -40,9 +40,9 @@ void CheckMedian(std::vector<int> test, MedianFinder& medianFinder) {
 
 class TestLogger {
 public:
-    TestLogger(std::string test_name)
-        : test_name_(std::move(test_name)) {
-        std::cout << "TEST running: " << test_name_ << std::endl;
+    TestLogger(std::string testName)
+        : testName_(std::move(testName)) {
+        std::cout << "TEST running: " << testName_ << std::endl;
         start = std::chrono::high_resolution_clock::now();
     }
 
@@ -51,11 +51,11 @@ public:
 
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
-        std::cout << "TEST " << test_name_ << " HAS BEEN PASSED IN " << ms << "ms" << std::endl;
+        std::cout << "TEST " << testName_ << " HAS BEEN PASSED IN " << ms << "ms" << std::endl;
     }
 
 private:
-    std::string test_name_;
+    std::string testName_;
     std::chrono::high_resolution_clock::time_point start;
 };
 
@@ -73,8 +73,8 @@ void simple_test() {
     CheckMedian(test, medianFinder);
 }
 
-void insert_find_test() {
-    TestLogger logger("insert_find_test");
+void InsertFindTest() {
+    TestLogger logger("InsertFindTest");
     std::vector<int> test = GenerateVector(1'000'000, 10);
 
     MedianFinder medianFinder;
@@ -86,8 +86,8 @@ void insert_find_test() {
     CheckMedian(test, medianFinder);
 }
 
-void delete_test() {
-    TestLogger logger("delete_test");
+void DeleteTest() {
+    TestLogger logger("DeleteTest");
     std::vector<int> test = GenerateVector(1'000'000, 10000);
     MedianFinder medianFinder;
 
@@ -108,8 +108,8 @@ void delete_test() {
     CheckMedian(remain, medianFinder);
 }
 
-void insert_delete_all_test() {
-    TestLogger logger("insert_delete_all_test");
+void InsertDeleteAllTest() {
+    TestLogger logger("InsertDeleteAllTest");
 
     MedianFinder medianFinder;
 
@@ -129,8 +129,8 @@ void insert_delete_all_test() {
     }
 }
 
-void stress_test() {
-    TestLogger logger("stress_test");
+void StressTest() {
+    TestLogger logger("StressTest");
 
     std::vector<int> test;
     test.reserve(1'000'000);
@@ -155,8 +155,8 @@ void stress_test() {
     }
 }
 
-void extra_duplicates_test() {
-    TestLogger logger("extra_duplicates_test");
+void ExtraDuplicatesTest() {
+    TestLogger logger("ExtraDuplicatesTest");
 
     std::vector<int> test;
     test.reserve(1'000'000);
@@ -186,32 +186,32 @@ void extra_duplicates_test() {
     }
 }
 
-void no_duplicates_test_case() {
-    allow_duplicates = false;
+void NoDuplicatesTestCase() {
+    allowDuplicates = false;
     simple_test();
-    insert_find_test();
-    delete_test();
-    insert_delete_all_test();
-    stress_test();
+    InsertFindTest();
+    DeleteTest();
+    InsertDeleteAllTest();
+    StressTest();
 
-    std::cout << "no_duplicates_test_case has been passed" << std::endl;
+    std::cout << "NoDuplicatesTestCase has been passed" << std::endl;
     std::cout << std::endl;
 }
 
-void allow_duplicates_test_case() {
-    allow_duplicates = true;
+void AllowDuplicatesTestCase() {
+    allowDuplicates = true;
     simple_test();
-    insert_find_test();
-    delete_test();
-    insert_delete_all_test();
-    stress_test();
-    extra_duplicates_test();
+    InsertFindTest();
+    DeleteTest();
+    InsertDeleteAllTest();
+    StressTest();
+    ExtraDuplicatesTest();
 
-    std::cout << "allow_duplicates_test_case has been passed" << std::endl;
+    std::cout << "AllowDuplicatesTestCase has been passed" << std::endl;
     std::cout << std::endl;
 }
 
 int main() {
-    no_duplicates_test_case();
-    allow_duplicates_test_case();
+    NoDuplicatesTestCase();
+    AllowDuplicatesTestCase();
 }

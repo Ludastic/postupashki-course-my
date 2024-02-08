@@ -6,14 +6,14 @@
 
 #include <unordered_map>
 
-void FillHashTable(std::unordered_map<std::string, std::string>& table, size_t entry_count) {
-    for (size_t i = 0; i < entry_count; ++i) {
+void FillHashTable(std::unordered_map<std::string, std::string>& table, size_t entryCount) {
+    for (size_t i = 0; i < entryCount; ++i) {
         table.insert({"key" + std::to_string(i), "value" + std::to_string(i)});
     }
 }
 
-void FillHashTable(HashTable<std::string, std::string>& table, size_t entry_count) {
-    for (size_t i = 0; i < entry_count; ++i) {
+void FillHashTable(HashTable<std::string, std::string>& table, size_t entryCount) {
+    for (size_t i = 0; i < entryCount; ++i) {
         table.Insert("key" + std::to_string(i), "value" + std::to_string(i));
     }
 }
