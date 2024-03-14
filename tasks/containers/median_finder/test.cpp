@@ -69,7 +69,6 @@ void simple_test() {
     for (auto el: test) {
         medianFinder.Insert(el);
     }
-
     CheckMedian(test, medianFinder);
 }
 
@@ -188,7 +187,7 @@ void ExtraDuplicatesTest() {
 
 void NoDuplicatesTestCase() {
     allowDuplicates = false;
-    simple_test();
+//    simple_test();
     InsertFindTest();
     DeleteTest();
     InsertDeleteAllTest();

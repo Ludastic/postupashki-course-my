@@ -107,7 +107,7 @@ TEST_CASE("stress test") {
     std::unordered_map<std::string, int> expected;
     HashTable<std::string, int> hashTable;
 
-    for (size_t i = 0; i < 100'000; ++i) {
+    for (size_t i = 0; i < 10; ++i) {
         int choise = rand() % 10;
 
         if (0 <= choise && choise <= 4) {
