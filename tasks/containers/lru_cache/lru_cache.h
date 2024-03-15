@@ -4,91 +4,46 @@
 #include <cstdlib>
 #include <utility>
 #include <string>
-
-//class LRUCache {
-//public:
-//    LRUCache(size_t maxSize);
-//
-//    void Insert(const std::string& key, const std::string& value);
-//
-//    std::pair<bool, std::string> Find(const std::string& key);
-//};
-
-class Node {
-public:
-    std::string k;
-    std::string val;
-    Node* prev;
-    Node* next;
-
-    Node(std::string key, std::string value) {
-        k = key;
-        val = value;
-        prev = NULL;
-        next = NULL;
-    }
-};
+#include <list>
 
 class LRUCache {
 public:
+    std::unordered_map<std::string, std::pair<std::list<std::string>::iterator, std::string>> ht;
+    std::list<std::string> dll;
+    int cap;
     LRUCache(int capacity) {
-        cap = capacity;
+        cap=capacity;
+    }
 
-        left = new Node("", "");
-        right = new Node("", "");
-
-        left->next = right;
-        right->prev = left;
+    void moveToFirst(std::string key){
+        dll.erase(ht[key].first);
+        dll.push_front(key);
+        ht[key].first=dll.begin();
     }
 
     std::pair<bool, std::string> Find(std::string key) {
-        if (cache.find(key) != cache.end()) {
-            remove(cache[key]);
-            insert(cache[key]);
-            return std::make_pair(true, cache[key]->val);
-        }
-        return std::make_pair(false, "null");
+        if(ht.find(key)==ht.end()) return std::make_pair(false, "");
+
+        moveToFirst(key);
+        return std::make_pair(true, ht[key].second);
     }
 
     void Insert(std::string key, std::string value) {
-        if (cache.find(key) != cache.end()) {
-            remove(cache[key]);
-
-            delete cache[key];
+        if(ht.find(key)!=ht.end()){
+            ht[key].second=value;
+            moveToFirst(key);
         }
-        cache[key] = new Node(key, value);
-        insert(cache[key]);
-
-        if (cache.size() > cap) {
-            Node* lru = left->next;
-            remove(lru);
-            cache.erase(lru->k);
-
-            delete lru;
+        else{
+            dll.push_front(key);
+            ht[key]={dll.begin(), value};
+            cap--;
         }
-    }
-private:
-    int cap;
-    std::unordered_map<std::string, Node*> cache;
-    Node* left;
-    Node* right;
 
-    void remove(Node* node) {
-        Node* prev = node->prev;
-        Node* next = node->next;
+        if(cap<0){
+            ht.erase(dll.back());
+            dll.pop_back();
+            cap++;
+        }
 
-        prev->next = next;
-        next->prev = prev;
-    }
-
-    void insert(Node* node) {
-        Node* prev = right->prev;
-        Node* next = right;
-
-        prev->next = node;
-        next->prev = node;
-
-        node->prev = prev;
-        node->next = next;
     }
 };
