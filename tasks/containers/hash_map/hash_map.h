@@ -4,6 +4,7 @@
 #include <list>
 #include <cstddef>
 
+//ver 2
 template <typename Key, typename Value>
 class HashTable {
 public:
@@ -29,7 +30,12 @@ public:
 //            if(*outer_iter.size() != 0) {
 //                inner_iter++;
 //            }
-            while (outer_iter->end() == inner_iter) { //iter over empty bucket
+            inner_iter++;
+            if (inner_iter == outer_iter->end()) {
+                ++outer_iter;
+                inner_iter = outer_iter->begin();
+            }
+            while (outer_iter->size() == 0) { //iter over empty bucket
                 outer_iter++;
                 inner_iter = outer_iter->begin();
             }
@@ -133,6 +139,7 @@ public:
         }
         Entry entry{key, val};
         storage[bucket_number].push_back(entry);
+        size++;
         return storage[bucket_number][storage[bucket_number].size()-1].value;
     }
 
@@ -145,7 +152,7 @@ public:
         if (storage[0].size() == 0) {
             ++it;
         }
-        return it.inner_iter;
+        return it;
     }
 
 
@@ -155,7 +162,7 @@ public:
             it.outer_iter--;
         }
         it.inner_iter = it.outer_iter -> begin();
-        return it.inner_iter;
+        return it;
     };
 private:
     size_t capacity, size;
