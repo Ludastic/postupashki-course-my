@@ -34,7 +34,8 @@ void CheckMedian(std::vector<int> test, MedianFinder& medianFinder) {
     if (test.empty()) {
         return;
     }
-
+    // int act_med= medianFinder.Find(), med1 = test[test.size() / 2], med2 = test[(test.size()-1) / 2];
+    // int a = 0;
     assert(medianFinder.Find() == test[test.size() / 2] || medianFinder.Find() == test[(test.size() - 1) / 2]);
 }
 
